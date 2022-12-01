@@ -22,7 +22,8 @@ namespace OneToManyAPI.Controllers
             return Ok(await dbContext.Engines.ToListAsync());
         }
 
-        [HttpGet("GetOneEngine/{id:guid}")]
+        [HttpGet]
+        [Route("{id:guid}")]
         public async Task<IActionResult> GetOneEngine([FromRoute] Guid id)
         {
             var engine = await dbContext.Engines.FindAsync(id);
@@ -70,7 +71,7 @@ namespace OneToManyAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id: guid}")]
+        [Route("{id:guid}")]
         public async Task<IActionResult> DeleteEngine([FromRoute] Guid id)
         {
             var engine = await dbContext.Engines.FindAsync(id);
