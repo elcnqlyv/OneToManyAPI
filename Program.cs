@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //builder.Services.AddDbContext<EnginesAPIDbContext>(options => options.UseInMemoryDatabase("EnginesDb"));
-builder.Services.AddDbContext<EnginesAPIDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("EngineApiConnectionString")));
+builder.Services.AddDbContext<EnginesAPIDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
