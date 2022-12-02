@@ -9,9 +9,9 @@ namespace OneToManyAPI.Controllers
     [Route("api/[controller]")]
     public class EnginesController : Controller
     {
-        private readonly EnginesAPIDbContext dbContext;
+        private readonly OneToManyAPIDbContext dbContext;
 
-        public EnginesController(EnginesAPIDbContext dbContext)
+        public EnginesController(OneToManyAPIDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -23,7 +23,7 @@ namespace OneToManyAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id:guid}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetOneEngine([FromRoute] Guid id)
         {
             var engine = await dbContext.Engines.FindAsync(id);
@@ -39,12 +39,13 @@ namespace OneToManyAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEngine(AddEngineRequest addEngineRequest)
         {
+            Manufacturer manufacturer = dbContext.Manufacturers.FirstOrDefault(m=>m.Id == addEngineRequest.ManufacturerId);
+
             var engine = new Engine()
             {
-                Id = Guid.NewGuid(),
                 Name = addEngineRequest.Name,
-                Volume = addEngineRequest.Volume
-
+                Volume = addEngineRequest.Volume,
+                Manufacturer = manufacturer
             };
 
             await dbContext.Engines.AddAsync(engine);
@@ -54,7 +55,7 @@ namespace OneToManyAPI.Controllers
         }
 
         [HttpPut]
-        [Route("{id:guid}")]
+        [Route("{id}")]
         public async Task<IActionResult> UpdateEngine([FromRoute] Guid id, UpdateEngineRequest updateEngineRequest)
         {
             var engine = await dbContext.Engines.FindAsync(id);
@@ -71,7 +72,7 @@ namespace OneToManyAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id:guid}")]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteEngine([FromRoute] Guid id)
         {
             var engine = await dbContext.Engines.FindAsync(id);

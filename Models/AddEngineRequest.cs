@@ -4,6 +4,7 @@
     {
         public string Name { get; set; }
         public double Volume { get; set; }
+        public int ManufacturerId { get; set; }
 
     }
 }
